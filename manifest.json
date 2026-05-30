@@ -1,0 +1,48 @@
+{
+  "module": "JavaPlatform",
+  "version": "1.0.0",
+  "platform": "java",
+  "description": "Pre-built platform test suite for the Java middleware, authored as Cucumber/Gherkin .feature files run with behave (the format the Java platform team already uses). Covers input validation, JWT/auth handling, JNDI/deserialization guards (Log4Shell), and transport security headers. Each scenario emits its own pass/fail result.",
+  "entries": [
+    {
+      "id": "funds_transfer_validation",
+      "file": "funds_transfer_validation.feature",
+      "name": "Java — funds movement input validation",
+      "description": "Rejects negative deltas, accepts valid ones on the Java banking service.",
+      "language": "feature",
+      "category": "Functional",
+      "author": "Java Platform Team",
+      "tags": ["java", "cucumber", "validation"]
+    },
+    {
+      "id": "jwt_auth_token_expiry",
+      "file": "jwt_auth_token_expiry.feature",
+      "name": "Java — JWT auth handling (CVE-2023-21930)",
+      "description": "Forged/expired bearer tokens are rejected on protected endpoints.",
+      "language": "feature",
+      "category": "Security",
+      "author": "Java Platform Team",
+      "tags": ["java", "cucumber", "jwt", "CVE-2023-21930"]
+    },
+    {
+      "id": "deserialization_guard",
+      "file": "deserialization_guard.feature",
+      "name": "Java — JNDI/deserialization guard (Log4Shell)",
+      "description": "A JNDI lookup payload is neither evaluated nor reflected (CVE-2021-44228).",
+      "language": "feature",
+      "category": "Security",
+      "author": "Java Platform Team",
+      "tags": ["java", "cucumber", "log4shell", "CVE-2021-44228"]
+    },
+    {
+      "id": "transport_security_headers",
+      "file": "transport_security_headers.feature",
+      "name": "Java — transport security headers",
+      "description": "Asserts the HSTS header is present on the Java service.",
+      "language": "feature",
+      "category": "Security",
+      "author": "Java Platform Team",
+      "tags": ["java", "cucumber", "headers"]
+    }
+  ]
+}
