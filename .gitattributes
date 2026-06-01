@@ -1,2 +1,4 @@
 *.feature text eol=lf
 *.py text eol=lf
+*.properties text eol=lf
+*.options text eol=lf

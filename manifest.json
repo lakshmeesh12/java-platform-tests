@@ -1,43 +1,30 @@
 {
   "module": "JavaPlatform",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "platform": "java",
-  "description": "Pre-built platform test suite for the Java middleware, authored as Cucumber/Gherkin .feature files run with behave (the format the Java platform team already uses). Covers input validation, JWT/auth handling, JNDI/deserialization guards (Log4Shell), and transport security headers. Each scenario emits its own pass/fail result.",
+  "description": "Platform/middleware validation suite for the shared payment-engine (Spring Boot). Cucumber/Gherkin .feature files run with behave against the live middleware posture service. Validates the platform team's responsibilities: shared dependency BOM (Log4Shell/Spring4Shell/deserialization), JVM Log4Shell mitigations, TLS hardening, secrets-in-config, and actuator exposure. Some checks pass (JVM baseline, HTTPS) and the patch's regressions fail.",
   "entries": [
     {
-      "id": "funds_transfer_validation",
-      "file": "funds_transfer_validation.feature",
-      "name": "Java \u2014 credit limit movement validation",
-      "description": "Applies credit-limit increases/decreases and verifies the arithmetic on the live banking service.",
+      "id": "dependency_cve_scan",
+      "file": "dependency_cve_scan.feature",
+      "name": "Dependency CVE Scan (shared library BOM)",
+      "description": "Flags Log4Shell / Spring4Shell / commons-collections in the payment-engine dependency BOM.",
       "language": "feature",
-      "category": "Functional",
+      "category": "Vulnerability",
       "author": "Java Platform Team",
       "tags": [
         "java",
         "cucumber",
-        "validation"
+        "sca",
+        "log4shell",
+        "spring4shell"
       ]
     },
     {
-      "id": "jwt_auth_token_expiry",
-      "file": "jwt_auth_token_expiry.feature",
-      "name": "Java \u2014 sensitive data protection (PAN masking)",
-      "description": "Card numbers are masked in list and detail responses.",
-      "language": "feature",
-      "category": "Security",
-      "author": "Java Platform Team",
-      "tags": [
-        "java",
-        "cucumber",
-        "masking",
-        "pci"
-      ]
-    },
-    {
-      "id": "deserialization_guard",
-      "file": "deserialization_guard.feature",
-      "name": "Java \u2014 JNDI/deserialization guard (Log4Shell)",
-      "description": "A JNDI/deserialization payload is neither reflected nor fatal (CVE-2021-44228).",
+      "id": "log4shell_runtime_mitigation",
+      "file": "log4shell_runtime_mitigation.feature",
+      "name": "Log4Shell Runtime Mitigations (JVM)",
+      "description": "Asserts formatMsgNoLookups is set and JNDI remote-codebase loading is disabled.",
       "language": "feature",
       "category": "Security",
       "author": "Java Platform Team",
@@ -45,50 +32,66 @@
         "java",
         "cucumber",
         "log4shell",
+        "jvm",
         "CVE-2021-44228"
       ]
     },
     {
-      "id": "transport_security_headers",
-      "file": "transport_security_headers.feature",
-      "name": "Java \u2014 transport observability headers",
-      "description": "Every response carries a request-trace header for audit/tracing.",
+      "id": "tls_hardening",
+      "file": "tls_hardening.feature",
+      "name": "TLS Hardening (connector)",
+      "description": "HTTPS enabled and legacy TLS protocols (TLSv1/1.1) refused.",
       "language": "feature",
       "category": "Security",
       "author": "Java Platform Team",
       "tags": [
         "java",
         "cucumber",
-        "headers",
-        "tracing"
+        "tls"
       ]
     },
     {
-      "id": "account_balance_check",
-      "file": "account_balance_check.feature",
-      "name": "Java \u2014 credit card portfolio retrieval",
-      "description": "Lists the portfolio with masked card numbers and balance fields.",
+      "id": "secrets_in_config",
+      "file": "secrets_in_config.feature",
+      "name": "No Secrets in Configuration",
+      "description": "Datasource credentials must not be hardcoded in application.properties.",
+      "language": "feature",
+      "category": "Security",
+      "author": "Java Platform Team",
+      "tags": [
+        "java",
+        "cucumber",
+        "secrets",
+        "CWE-798"
+      ]
+    },
+    {
+      "id": "actuator_exposure",
+      "file": "actuator_exposure.feature",
+      "name": "Management Endpoint Exposure",
+      "description": "Actuator/management endpoints must not be exposed wide open.",
+      "language": "feature",
+      "category": "Security",
+      "author": "Java Platform Team",
+      "tags": [
+        "java",
+        "cucumber",
+        "actuator",
+        "CWE-200"
+      ]
+    },
+    {
+      "id": "jvm_runtime_baseline",
+      "file": "jvm_runtime_baseline.feature",
+      "name": "JVM Runtime Baseline",
+      "description": "Heap and truststore are configured (passes on the patched build).",
       "language": "feature",
       "category": "Functional",
       "author": "Java Platform Team",
       "tags": [
         "java",
         "cucumber",
-        "portfolio"
-      ]
-    },
-    {
-      "id": "jwt_expiry_validation",
-      "file": "jwt_expiry_validation.feature",
-      "name": "Java \u2014 error handling (unknown resource)",
-      "description": "Requests for non-existent resources return a clean not-found error.",
-      "language": "feature",
-      "category": "Functional",
-      "author": "Java Platform Team",
-      "tags": [
-        "java",
-        "cucumber",
-        "error-handling"
+        "jvm"
       ]
     }
   ]

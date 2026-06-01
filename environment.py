@@ -1,5 +1,5 @@
-"""behave hooks for the Java platform suite. Minimal — the steps are
-self-contained and read the target URL from the environment."""
+"""behave hooks for the Java middleware platform suite. Minimal — each step
+reads the live posture endpoint from the environment (AQE_JAVA_MOCK_URL)."""
 
 
 def before_all(context):
