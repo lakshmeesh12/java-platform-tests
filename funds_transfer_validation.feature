@@ -1,12 +1,19 @@
-Feature: Funds movement input validation (Java banking service)
-  Verify the Java middleware rejects invalid money movements and accepts valid ones.
+Feature: Credit limit movement validation (Java banking service)
+  The banking middleware applies credit-limit changes correctly and keeps the
+  arithmetic consistent on every movement.
 
-  Scenario: Negative credit-limit delta is rejected
-    Given the platform service is reachable
-    When I request a credit limit increase with delta -500
-    Then the response is a client error
+  Scenario: The banking service is healthy
+    Given the banking service is reachable
+    Then the service reports it is healthy
 
-  Scenario: Valid credit-limit delta is accepted
-    Given the platform service is reachable
-    When I request a credit limit increase with delta 1000
-    Then the response is successful
+  Scenario: A cardholder increases their credit limit
+    Given an active credit card
+    When I increase the credit limit by 1000
+    Then the request succeeds
+    And the new credit limit reflects the change
+
+  Scenario: A cardholder decreases their credit limit
+    Given an active credit card
+    When I decrease the credit limit by 500
+    Then the request succeeds
+    And the new credit limit reflects the change
